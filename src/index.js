@@ -34,11 +34,15 @@ setInterval(function () {
 }, 1000);
 
 function updateCity(event) {
-  let cityTimeZone = event.target.value;
-  let cityTime = moment.tz(cityTimeZone);
-  let cityName = cityTimeZone.replace("_", " ").split("/")[1];
-  let displayCity = document.querySelector("#displayCities");
-  displayCity.innerHTML = `
+  if (event.target.value.length > 0) {
+    let cityTimeZone = event.target.value;
+    if (cityTimeZone === "current") {
+      cityTimeZone = moment.tz.guess();
+    }
+    let cityTime = moment.tz(cityTimeZone);
+    let cityName = cityTimeZone.replace("_", " ").split("/")[1];
+    let displayCity = document.querySelector("#displayCities");
+    displayCity.innerHTML = `
     <div class="city">
       <div>
         <h2>${cityName}</h2>
@@ -46,6 +50,7 @@ function updateCity(event) {
       </div>
       <div class="time">${cityTime.format("h:mm:ss [<small>]A[</small>]")}</div>
     </div>`;
+  }
 }
 
 let selectCity = document.querySelector("#selectCities");
